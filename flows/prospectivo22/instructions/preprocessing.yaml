@@ -1,0 +1,44 @@
+rename_instruments:
+  mapping:
+    importao_estudo_retrospectivo: importacao
+    incluso: inclusao
+    identificao: identificacao
+    abep_informaes_socioeconmicas: abep
+    diagnstico: diagnostico
+    internao: internacao
+    finalizao_do_estudo: seguimento
+remove_missing_datacodes:
+aggregate_columns:
+  agg_map:
+    - search_str: cid_nasc_
+      col_name: cidade_nascimento
+    - search_str: cid_resid_
+      col_name: cidade_residencia
+    - search_str: doenca_.._orpha
+      col_name: doenca_orpha
+    - search_str: doenca_.._cid10
+      col_name: doenca_cid10
+    - search_str: doenca_.._omim
+      col_name: doenca_omim
+    - search_str: ^ss_\d$
+      col_name: sintomas
+decode_checkbox:
+subset_forms:
+match_forms_to_schema:
+  schema:
+    create_new_forms:
+      - new_form: obito
+        source_form: seguimento
+        common_columns:
+          - record_id
+          - redcap_data_access_group
+          - date_compl_end
+          - resp_compl_end
+        unique_columns:
+          - data_obito
+          - causa_obito
+          - info_obito
+          - outra_info_obito
+    merge_forms:
+      - target_form: inclusao
+        source_form: importacao

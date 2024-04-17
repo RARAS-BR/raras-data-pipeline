@@ -1,0 +1,291 @@
+inclusao:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  remap_boolean_labels:
+    columns:
+      - import_estudos_ant_realiz
+      - tcle_assinado
+      - tale_required
+      - tcle_resp_legal
+      - tcle_testemunha
+      - aceita_contato
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_eleg
+        - data_entrevista_eleg
+        - data_1a_consulta_espec
+        - data_1a_consulta_centro
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro,
+      resp_preench_eleg: responsavel_preenchimento
+      data_preench_eleg: data_preenchimento
+      data_entrevista_eleg: data_entrevista
+      import_estudos_ant_realiz: importacao_realizada
+      import_estudos_ant_origem: origem_importacao
+      data_1a_consulta_espec: data_1a_consulta_especialidade
+  drop_features:
+    columns:
+      - calc_elegivel
+      - importacao_complete
+
+identificacao:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  remap_boolean_labels:
+    columns:
+      - prematuridade
+      - participante_recebe_auxilio
+      - familiar_recebe_auxilio
+      - associacao
+  normalize_string:
+    columns:
+      - nome
+      - nome_mae
+    method: title
+  scale_birth_weight:
+  check_cpf:
+  check_cns:
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_identificacao
+        - dta_nasc
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      data_preench_identificacao: data_preenchimento
+      resp_preench_identificacao: responsavel_preenchimento
+      dta_nasc: data_nascimento
+
+diagnostico:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  remap_boolean_labels:
+    columns:
+      - recorrencia_familiar
+      - consang_relatada
+  split_code_descrpition:
+    - column: doenca_cid10
+      filter_pattern: '(?:CID-10|CID10)?\s*-\s*([A-Z]\d{2}(?:\.\d{1}|\.\d\+|\.\d\*|\d{3}[+*][^\s]+)?)(?=\s*-\s*|$)'
+      code_name: codigo_cid10
+      desc_name: descricao_cid10
+    - column: doenca_omim
+      filter_pattern: '(?<=- )\d{6}(?= -|$)'
+      code_name: codigo_omim
+      desc_name: descricao_omim
+    - column: doenca_orpha
+      filter_pattern: 'ORPHA\s*-\s*((?:\d{1,6}(?:\.\d)?(?:\s*-\s*\d{3,6}(?:\.\d)?)*)?)'
+      code_name: codigo_orpha
+      desc_name: descricao_orpha
+  recalculate_age:
+    age_column: idade_inicio_sintomas
+    age_unit_column: age_time_unit
+    new_column: idade_inicio_sintomas_em_dias
+    age_unit_map:
+      Anos: 365
+      Meses: 30
+      Dias: 1
+  enforce_dtype:
+    dtype_map:
+      Int64:
+        - idade_materna
+        - idade_paterna
+        - nro_servicos_visitados
+        - nro_medicos_visitados
+        - nro_nao_medicos_visitados
+      datetime:
+        - data_preench_diag
+        - dta_diag
+
+  replace_other_columns:
+    search_str: outr
+    column_map:
+      tp_diag: outro_tipo_diagnostico
+      tp_diag_etiologico: outro_tipo_diagnostico_etio_2
+      diag_etio_mol_tipo: outro_tipo_metodo_mol
+      diag_etio_citogen_tipo: outro_tipo_metodo_cito
+      diag_etio_erros_inat_met: outro_tipo_metodo_erro_inat
+    drop_columns: True
+
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      data_preench_diag: data_preenchimento
+      resp_preench_diag: responsavel_preenchimento
+      status_doenca_rara: status_diagnostico
+      ft_pag_diag: fonte_pagadora
+      momento_diag: momento_diagnostico
+      dta_diag: data_diagnostico
+
+      tp_diag_etiologico: tipo_diag_etiologico
+      diag_etio_mol_variante_ident: variante_etiologico_molecular
+      diag_etio_mol_gene: gene_etiologico_molecular
+      diag_etio_mol_regiao: regiao_etiologico_molecular
+      diag_etio_mol_tipo: metodo_etiologico_molecular
+      outro_tipo_metodo_mol: outro_metodo_etiologico_molecular
+      diag_etio_citogen_tipo: metodo_etiologico_citogenico
+      outro_tipo_metodo_cito: outro_metodo_etiologico_citogenico
+      diag_etio_erros_inat_met: metodo_etiologico_bioquimico
+      outro_tipo_metodo_erro_inat: outro_metodo_etiologico_bioquimico
+      outro_tipo_diagnostico_etio_2: outro_tipo_diag_etiologico
+
+      nro_servicos_visitados: servicos_visitados
+      nro_medicos_visitados: medicos_visitados
+      nro_nao_medicos_visitados: outros_profissionais_visitados
+      obs_gerais_diagnostico: observacoes_gerais
+      consang_relatada: consanguinidade_relatada
+  drop_features:
+    columns:
+      - outras_terminologia
+      - faixa_letras_doenca_rara
+      - faixa_letras_doenca_rara_cid
+      - faixa_letras_doenca_rara_omim
+
+tratamento:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  enforce_dtype:
+    dtype_map:
+      Int64:
+        - nro_diag_tto_dr
+        - nro_diag_tto_comorb
+      datetime:
+        - data_preench_tto
+        - dta_ini_trat_medicam
+        - dta_ini_trat_dietetico
+        - dta_ini_trat_reab
+        - dta_ini_outro_trat
+        - dta_ini_trat_psico
+        - dta_ini_trat_transplante
+        - dta_ini_trat_terap_gen
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      data_preench_tto: data_preenchimento
+      resp_preench_tto: responsavel_preenchimento
+      tto_relacionado_dr: alvo_tratamento
+      nro_diag_tto_dr: diag_instance_id
+      nro_diag_tto_comorb: comorb_instance_id
+
+      dta_ini_trat_medicam: data_inicio_trat_med
+      dta_ini_trat_dietetico: data_inicio_trat_diet
+      dta_ini_trat_reab: data_inicio_trat_reab
+      dta_ini_outro_trat: data_inicio_trat_outro
+      dta_ini_trat_psico: data_inicio_trat_psico
+      dta_ini_trat_transplante: data_inicio_trat_transplante
+      dta_ini_trat_terap_gen: data_inicio_trat_terap_gen
+
+      desc_trat_medicamentoso: desc_trat_med
+      outro_trat_desc: desc_trat_outro
+
+      ft_pagadora_trat_medicam: ft_pag_trat_med
+      ft_pag_trat_dietetico: ft_pag_trat_diet
+      ft_pag_outro_trat: ft_pag_trat_outro
+      ft_pag_trat_psico: ft_pag_trat_psico
+      ft_pag_trat_transp: ft_pag_trat_transplante
+      ft_pag_trat_terap_gen: ft_pag_trat_terap_gen
+
+comorbidade:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  remap_boolean_labels:
+    columns:
+      - trat_comorbidade_centro
+  recalculate_age:
+    age_column: tempo_diag_comorbidade
+    age_unit_column: uni_tempo_diag_comorbidade
+    new_column: tempo_diagnostico_dias
+    age_unit_map:
+      Anos: 365
+      Meses: 30
+      Dias: 1
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_comorb
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      resp_preench_comorb: responsavel_preenchimento
+      data_preench_comorb: data_preenchimento
+      tempo_diag_comorbidade: tempo_diagnostico_dias
+      trat_comorbidade: realiza_tratamento
+      trat_comorbidade_centro: tratado_outro_centro
+      comorbidade_outro_centro: centro_tratamento
+      desc_trat_comorbidade: descricao_tratamento
+      medicam_comorbidade: medicamentacao
+
+internacao:
+  remove_incomplete_forms:
+  enforce_dtype:
+    dtype_map:
+      Int64:
+        - tempo_internacao_dias
+      datetime:
+        - data_preench_internacao
+        - data_alta_internacao
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      resp_preench_internacao: responsavel_preenchimento
+      data_preench_internacao: data_preenchimento
+      data_alta_internacao: data_alta
+      cid_internacao: cid10_internacao
+
+seguimento:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  remap_boolean_labels:
+    columns:
+      - estudo_completo
+
+  # TODO: add custom function to transform 'qual_outra_especialidade' column
+
+  replace_other_columns:
+    search_str: outro
+    column_map:
+      desfecho_seguimento: descricao_outro_desfecho
+    drop_columns: True
+
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - date_compl_end
+        - data_abandono_desfecho
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      resp_compl_end: responsavel_preenchimento
+      date_compl_end: data_preenchimento
+      outra_espec_medica: outra_especialidade_medica
+      qual_outra_especialidade: especialidade_medica
+      obs_7: observacoes
+  drop_features:
+    columns:
+      - upload_tcle
+      - upload_tale
+
+abep:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  enforce_dtype:
+    dtype_map:
+      Int64:
+        - soma_tabela1
+        - pontuacao
+      datetime:
+        - data_preench_abep
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      resp_preench_abep: responsavel_preenchimento
+      data_preench_abep: data_preenchimento
+      n_moram_paciente: n_moram_domicilio

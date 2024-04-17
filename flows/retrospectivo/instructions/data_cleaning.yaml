@@ -1,0 +1,155 @@
+inclusao:
+  remove_incomplete_forms:
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_identificacao
+        - data_1a_consulta_centro
+        - data_1a_consulta_espec
+        - data_consulta_revisada
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      resp_preench_identificacao: responsavel_preenchimento
+      data_preench_identificacao: data_preenchimento
+      data_1a_consulta_espec: data_1a_consulta_especialidade
+
+identificacao:
+  remove_incomplete_forms:
+  remap_categorical_labels:
+  create_identifier_column:
+  check_cpf:
+  check_cns:
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_identificacao
+        - dta_nasc
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      data_preench_identificacao: data_preenchimento
+      resp_preench_identificacao: responsavel_preenchimento
+      dta_nasc: data_nascimento
+      sexo: genero
+
+diagnostico:
+  remove_incomplete_forms:
+  remap_boolean_labels:
+    columns:
+      - consang_relatada
+      - recorrencia_familiar
+  remap_categorical_labels:
+  enforce_dtype:
+    dtype_map:
+      Int64:
+        - idade_materna
+        - idade_paterna
+      datetime:
+        - data_preench_diag
+        - dta_diag
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      data_preench_diag: data_preenchimento
+      resp_preench_diag: responsavel_preenchimento
+      status_doenca_rara: status_diagnostico
+      ft_pag_diag: fonte_pagadora
+      momento_diag: momento_diagnostico
+      dta_diag: data_diagnostico
+      consang_relatada: consanguinidade_relatada
+  drop_features:
+    columns:
+      - terminologia
+      - faixa_letras_doenca_rara
+
+tratamento:
+  remove_incomplete_forms:
+  remap_boolean_labels:
+    columns:
+      - acompa_outra_especialidade
+  remap_categorical_labels:
+  enforce_dtype:
+    dtype_map:
+      Int64:
+        - nro_diag_tto
+      datetime:
+        - data_preench_tto
+        - dta_ini_trat_medicam
+        - dta_ini_trat_dietetico
+        - dta_ini_trat_reab
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      redcap_repeat_instance: instance_id
+      data_preench_tto: data_preenchimento
+      resp_preench_tto: responsavel_preenchimento
+      tto_relacionado_dr: alvo_tratamento
+      nro_diag_tto: diag_instance_id
+      dta_ini_trat_medicam: data_inicio_trat_med
+      dta_ini_trat_dietetico: data_inicio_trat_diet
+      dta_ini_trat_reab: data_inicio_trat_reab
+      desc_trat_medicamentoso: desc_trat_med
+      outro_trat_desc: desc_trat_outro
+      ft_pagadora_trat_medicam: ft_pag_trat_med
+      ft_pag_trat_dietetico: ft_pag_trat_diet
+      acompa_outra_especialidade: acompanha_outra_especialidade
+      qual_outra_especialidade: especialidade_medica
+      outra_espec_medica: outra_especialidade_medica
+
+internacao:
+  remove_incomplete_forms:
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_identificacao
+        - dta_internacao_previa
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      # redcap_repeat_instance: instance_id
+      data_preench_identificacao: data_preenchimento
+      resp_preench_identificacao: responsavel_preenchimento
+      dta_internacao_previa: data_internacao
+      cid_internacao_previa: cid10_internacao
+  # TODO: add filter to select only 'internacao_previa' == 'sim'
+  drop_features:
+    columns:
+      - internacao_previa
+
+obito:
+  remove_incomplete_forms:
+  remap_boolean_labels:
+    columns:
+      - necropsia_realizada
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_identificacao
+        - dta_obito
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      # redcap_repeat_instance: instance_id
+      data_preench_identificacao: data_preenchimento
+      resp_preench_identificacao: responsavel_preenchimento
+      dta_obito: data_obito
+      cid_obito: cid10_obito
+  # TODO: add filter to select only 'ocorrencia_obito' == 'sim'
+  drop_features:
+    columns:
+      - ocorrencia_obito
+
+seguimento:
+  remove_incomplete_forms:
+  enforce_dtype:
+    dtype_map:
+      datetime:
+        - data_preench_identificacao
+  rename_features:
+    mapping:
+      redcap_data_access_group: id_centro
+      resp_preench_identificacao: responsavel_preenchimento
+      data_preench_identificacao: data_preenchimento
+      qtd_internacoes: quantidade_internacoes

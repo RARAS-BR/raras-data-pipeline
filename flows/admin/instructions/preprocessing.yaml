@@ -1,0 +1,20 @@
+rename_instruments:
+  mapping:
+    responsveis: responsaveis
+    dados_do_responsvel: dados_centro
+    pacote_regulatrio: pacote_regulatorio
+    gerenciamento_de_usurios: usuarios
+    eventos_e_trabalhos_cientficos: eventos
+    pesquisa_e_publicaes_cientficas: publicacoes
+    solicitao_de_dados: solicitacao_dados
+    outras_solicitaes: outras_solicitacoes
+    incluso_de_doenas_raras: inclusao_doencas
+    levantamento_tcnico: levantamento_tecnico_20
+    levantamento_tcnico_7c93: levantamento_tecnico_23
+    procedimentos_e_recursos_humanos: rh_20
+    procedimentos_e_recursos_humanos_84d6: rh_23
+    caracterizao_de_usurios: caracterizacao_usuarios_20
+    caracterizao_de_usurios_d523: caracterizacao_usuarios_23
+remove_missing_datacodes:
+decode_checkbox:
+subset_forms:

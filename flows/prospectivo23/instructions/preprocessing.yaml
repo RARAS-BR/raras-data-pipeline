@@ -1,0 +1,26 @@
+rename_instruments:
+  mapping:
+    dados_demograficos: identificacao
+    importacao_estudos_anteriores: importacao
+remove_missing_datacodes:
+aggregate_columns:
+  agg_map:
+    - search_str: cid_nasc_
+      col_name: cidade_nascimento
+    - search_str: cid_resid_
+      col_name: cidade_residencia
+    - search_str: doenca_.._orpha
+      col_name: doenca_orpha
+    - search_str: doenca_.._cid10
+      col_name: doenca_cid10
+    - search_str: doenca_.._omim
+      col_name: doenca_omim
+    - search_str: ^ss_\d$
+      col_name: sintomas
+decode_checkbox:
+subset_forms:
+match_forms_to_schema:
+  schema:
+    merge_forms:
+      - target_form: inclusao
+        source_form: importacao

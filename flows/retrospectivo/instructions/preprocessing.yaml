@@ -1,0 +1,67 @@
+rename_instruments:
+  mapping:
+    identificao: identificacao
+    diagnstico: diagnostico
+remove_missing_datacodes:
+aggregate_columns:
+  agg_map:
+    - search_str: cid_nasc_
+      col_name: cidade_nascimento
+    - search_str: cid_resid_
+      col_name: cidade_residencia
+    - search_str: doenca_.._orpha
+      col_name: doenca_orpha
+    - search_str: doenca_.._cid10
+      col_name: doenca_cid10
+    - search_str: doenca_.._omim
+      col_name: doenca_omim
+    - search_str: ^ss_\d$
+      col_name: sintomas
+decode_checkbox:
+subset_forms:
+match_forms_to_schema:
+  schema:
+    create_new_forms:
+      - new_form: inclusao
+        source_form: identificacao
+        common_columns:
+          - record_id
+          - redcap_data_access_group
+          - data_preench_identificacao
+          - resp_preench_identificacao
+        unique_columns:
+          - data_consulta_revisada
+          - data_1a_consulta_centro
+          - data_1a_consulta_espec
+      - new_form: internacao
+        source_form: identificacao
+        common_columns:
+          - record_id
+          - redcap_data_access_group
+          - data_preench_identificacao
+          - resp_preench_identificacao
+        unique_columns:
+          - dta_internacao_previa
+          - cid_internacao_previa
+          - internacao_previa
+      - new_form: seguimento
+        source_form: identificacao
+        common_columns:
+          - record_id
+          - redcap_data_access_group
+          - data_preench_identificacao
+          - resp_preench_identificacao
+        unique_columns:
+          - qtd_internacoes
+      - new_form: obito
+        source_form: identificacao
+        common_columns:
+          - record_id
+          - redcap_data_access_group
+          - data_preench_identificacao
+          - resp_preench_identificacao
+        unique_columns:
+          - dta_obito
+          - ocorrencia_obito
+          - necropsia_realizada
+          - cid_obito
